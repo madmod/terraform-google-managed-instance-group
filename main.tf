@@ -140,7 +140,7 @@ resource "google_compute_region_instance_group_manager" "default" {
 
   target_pools = ["${var.target_pools}"]
 
-  // There is no way to unset target_size when autoscaling is true so for now, jsut use the min_replicas value.
+  // There is no way to unset target_size when autoscaling is true so for now, just use the min_replicas value.
   // Issue: https://github.com/terraform-providers/terraform-provider-google/issues/667
   target_size = "${var.autoscaling ? var.min_replicas : var.size}"
 
