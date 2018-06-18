@@ -175,9 +175,14 @@ variable distribution_policy_zones {
 }
 
 variable ssh_source_ranges {
-  description = "Network ranges to allow SSH from"
+  description = "Network ranges to allow SSH from. Set to [] to disable SSH firewall resources and deny all SSH."
   type        = "list"
   default     = ["0.0.0.0/0"]
+}
+
+variable ssh_port {
+  description = "Port SSH is listening on."
+  default     = "22"
 }
 
 variable disk_auto_delete {

@@ -23,7 +23,7 @@ resource "google_compute_instance_template" "default" {
 
   region = "${var.region}"
 
-  tags = ["${concat(list("allow-ssh"), var.target_tags)}"]
+  tags = ["${length(var.ssh_source_ranges) == 0 ? var.target_tags : concat(list("allow-ssh"), var.target_tags)}"]
 
   network_interface {
     network            = "${var.subnetwork == "" ? var.network : ""}"
@@ -194,14 +194,14 @@ resource "null_resource" "region_dummy_dependency" {
 }
 
 resource "google_compute_firewall" "default-ssh" {
-  count   = "${var.module_enabled ? 1 : 0}"
+  count   = "${var.module_enabled && len(var.ssh_source_ranges) != 0 ? 1 : 0}"
   project = "${var.subnetwork_project == "" ? var.project : var.subnetwork_project}"
   name    = "${var.name}-vm-ssh"
   network = "${var.network}"
 
   allow {
     protocol = "tcp"
-    ports    = ["22"]
+    ports    = ["${var.ssh_port}"]
   }
 
   source_ranges = ["${var.ssh_source_ranges}"]
