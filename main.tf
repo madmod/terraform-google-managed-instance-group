@@ -23,7 +23,7 @@ resource "google_compute_instance_template" "default" {
 
   region = "${var.region}"
 
-  tags = ["${length(var.ssh_source_ranges) == 0 ? var.target_tags : concat(list("allow-ssh"), var.target_tags)}"]
+  tags = ["${concat(slice(list("allow-ssh"), 0, length(var.ssh_source_ranges)), var.target_tags)}"]
 
   network_interface {
     network            = "${var.subnetwork == "" ? var.network : ""}"
