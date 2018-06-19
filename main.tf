@@ -194,7 +194,7 @@ resource "null_resource" "region_dummy_dependency" {
 }
 
 resource "google_compute_firewall" "default-ssh" {
-  count   = "${var.module_enabled && len(var.ssh_source_ranges) != 0 ? 1 : 0}"
+  count   = "${var.module_enabled && length(var.ssh_source_ranges) != 0 ? 1 : 0}"
   project = "${var.subnetwork_project == "" ? var.project : var.subnetwork_project}"
   name    = "${var.name}-vm-ssh"
   network = "${var.network}"
